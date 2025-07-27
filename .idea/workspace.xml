@@ -5,57 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58055a4-9f06-40ab-8fe9-e9879eb79a20" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/employee-record.cbl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/CopybookParserApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/config/FieldProcessingRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/config/LayoutGenerationRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/config/ParsingRules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/config/RecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/CopybookAnalyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/ParserEngine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/RuleInterpreter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/CobolField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/ParseResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/RecordLayout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/RecordTypeResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/FieldProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/LayoutProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/RecordTypeProcessor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/util/StorageCalculator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/ArrayElement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/ConditionName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/CopybookJson.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/CopybookLayout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/Field.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/FieldDefinition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/RecordLayout.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/model/ReferenceField.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/parser/CopybookParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/CharacterBasedRecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/ConditionalBasedRecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/Json1RuleEngine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/NoRecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/PositionBasedRecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/RecordTypeRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/RuleEngine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/rules/RuleRegistry.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/validation/LayoutValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rule-config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/character-based-rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/conditional-rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/default-rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/multi-field-rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/no-record-type-rules.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/rules/pattern-based-rules.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/CopybookParserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/CopybookParserApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/CopybookAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/CopybookAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/ParserEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/engine/ParserEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/CobolField.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/model/CobolField.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/FieldProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/FieldProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/LayoutProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/processor/LayoutProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/copybook/parser/util/StorageCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/copybook/parser/util/StorageCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/ArrayElement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/ConditionName.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/CopybookJson.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/CopybookLayout.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/Field.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/FieldDefinition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/RecordLayout.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/model/ReferenceField.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/parser/CopybookParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/CharacterBasedRecordTypeRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/ConditionalBasedRecordTypeRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/Json1RuleEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/NoRecordTypeRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/PositionBasedRecordTypeRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/RecordTypeRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/RuleEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/rules/RuleRegistry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/validation/LayoutValidator.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,25 +48,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="30SRqVZoW29bp4dLuwIOvrTIOQd" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.copybook-parser [clean,install].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "onboarding.tips.debug.path": "C:/Users/himan/Downloads/copybook-parser/src/main/java/com/copybook/Main.java"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.copybook-parser [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/himan/Downloads/copybook-parser/src/main/java/com/copybook/Main.java&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\himan\Downloads\copybook-parser\src\main\resources\rules" />

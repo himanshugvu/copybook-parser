@@ -1,12 +1,10 @@
 package com.copybook.parser.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
-
-import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -16,49 +14,29 @@ public class CobolField {
 
     private int level;
     private String name;
-    private String originalName;
     private String picture;
-    private String usage;
     private String value;
 
-    // Position information
+    // Position and Length
     private int startPosition;
     private int endPosition;
     private int length;
-    private int storageLength;
 
-    // OCCURS information
-    private Integer occurs;
-    private Integer minOccurs;
-    private Integer maxOccurs;
-    private String dependingOn;
-    private List<CobolField> occursFields;
+    // Helper methods to determine field type
+    @JsonIgnore
+    public boolean isGroup() {
+        // A group field has no PICTURE clause and is not a condition level.
+        return (picture == null || picture.trim().isEmpty()) && !isCondition();
+    }
 
-    // REDEFINES information
-    private String redefines;
-    private boolean isRedefineTarget;
-    private List<CobolField> redefineAlternatives;
+    @JsonIgnore
+    public boolean isCondition() {
+        // A condition field is always at level 88.
+        return level == 88;
+    }
 
-    // Hierarchy information
-    private String parentName;
-    private List<CobolField> children;
-    private String fullPath;
-
-    // Type information
-    private String dataType;
-    private String storageFormat;
-    private boolean isGroup;
-    private boolean isElementary;
-    private boolean isCondition;
-    private boolean isFiller;
-
-    // Metadata
-    private String recordType;
-    private String description;
-    private List<String> validValues;
-    private Map<String, Object> customProperties;
-
-    // Validation information
-    private List<String> validationRules;
-    private Map<String, String> constraints;
+    @JsonIgnore
+    public boolean isFiller() {
+        return name != null && "FILLER".equalsIgnoreCase(name.trim());
+    }
 }

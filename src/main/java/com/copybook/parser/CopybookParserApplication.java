@@ -1,36 +1,33 @@
 package com.copybook.parser;
 
 import com.copybook.parser.config.ParsingRules;
+import com.copybook.parser.engine.CopybookAnalyzer;
 import com.copybook.parser.engine.ParserEngine;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.copybook.parser.model.RecordLayout;
+import com.copybook.parser.processor.LayoutProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
+import java.util.List;
 
 @SpringBootApplication
-@RequiredArgsConstructor
-@Slf4j
 public class CopybookParserApplication implements CommandLineRunner {
 
-    private final ParserEngine parserEngine;
+    @Autowired
+    private CopybookAnalyzer copybookAnalyzer;
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        var mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-        return mapper;
-    }
+    @Autowired
+    private ParserEngine parserEngine;
+
+    @Autowired
+    private ParsingRules parsingRules;
+
+    @Autowired
+    private LayoutProcessor layoutProcessor;
 
     public static void main(String[] args) {
         SpringApplication.run(CopybookParserApplication.class, args);
@@ -39,69 +36,44 @@ public class CopybookParserApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (args.length < 1) {
-            printUsage();
+            System.err.println("Usage: java -jar copybook-parser.jar <path-to-copybook>");
             return;
         }
 
-        var copybookPath = args[0];
-        var rulesPath = args.length > 1 ? args[1] : null;
-        var outputPath = args.length > 2 ? args[2] : "output.json";
+        String copybookPath = args[0];
+        Path path = Path.of(copybookPath);
 
-        log.info("Processing copybook: {}", copybookPath);
-
-        var copybookLines = Files.readAllLines(Paths.get(copybookPath));
-        log.info("Loaded {} lines from copybook", copybookLines.size());
-
-        var rules = loadRules(rulesPath);
-        log.info("Using rule type: {}", rules.getRuleType());
-
-        var result = parserEngine.parse(copybookLines, rules);
-
-        var objectMapper = objectMapper();
-        objectMapper.writeValue(new File(outputPath), result);
-
-        if (result.isSuccess()) {
-            log.info("✅ Parsing completed successfully in {}ms", result.getProcessingTimeMs());
-            log.info("📊 Results: {} record layouts, {} total fields",
-                    result.getRecordLayouts().size(), result.getTotalFields());
-            log.info("📁 Output written to: {}", outputPath);
-
-            if (result.getWarnings() != null && !result.getWarnings().isEmpty()) {
-                log.warn("⚠️  Warnings: {}", result.getWarnings());
-            }
-        } else {
-            log.error("❌ Parsing failed: {}", result.getErrorMessage());
-            System.exit(1);
-        }
-    }
-
-    private ParsingRules loadRules(String rulesPath) throws Exception {
-        if (rulesPath == null) {
-            log.info("No rules file provided, using default configurable rules");
-            return ParsingRules.createDefault();
+        if (!Files.exists(path)) {
+            System.err.println("Error: File not found at " + copybookPath);
+            return;
         }
 
-        var objectMapper = objectMapper();
-        var rules = objectMapper.readValue(new File(rulesPath), ParsingRules.class);
-        log.info("Loaded rules from: {}", rulesPath);
-        return rules;
-    }
+        // Read the copybook file into a list of lines
+        List<String> copybookLines = Files.readAllLines(path);
 
-    private void printUsage() {
-        System.out.println("""
-                🔧 Copybook Parser v2.0.0 - Java 21 (Fully Configurable)
-                
-                Usage: java -jar copybook-parser.jar <copybook-file> [rules-file] [output-file]
-                
-                Arguments:
-                  copybook-file  : Path to the COBOL copybook file (required)
-                  rules-file     : Path to parsing rules JSON file (optional)
-                  output-file    : Output file path (optional, default: output.json)
-                
-                Examples:
-                  java -jar copybook-parser.jar employee.cpy
-                  java -jar copybook-parser.jar employee.cpy rules/position-based.json
-                  java -jar copybook-parser.jar employee.cpy rules/banking.json result.json
-                """);
+        try {
+            // Analyze the copybook
+            RecordLayout layout = copybookAnalyzer.analyze(copybookLines, parsingRules);
+
+            // Print the results
+            System.out.println("Copybook Parsing Successful!");
+            System.out.println("Record Layout Name: " + layout.getLayoutName());
+            System.out.println("Total Length: " + layout.getTotalLength());
+            System.out.println("Field Count: " + layout.getFieldCount());
+            System.out.println("Group Fields: " + layout.getGroupFields());
+            System.out.println("Elementary Fields: " + layout.getElementaryFields());
+            System.out.println("Condition Fields: " + layout.getConditionFields());
+            System.out.println("Filler Fields: " + layout.getFillerFields());
+
+            // Optionally, print each field
+            layout.getFields().forEach(field -> {
+                System.out.printf("Field: %s, Level: %d, Picture: %s, Length: %d, Start: %d, End: %d%n",
+                        field.getName(), field.getLevel(), field.getPicture(),
+                        field.getLength(), field.getStartPosition(), field.getEndPosition());
+            });
+        } catch (Exception e) {
+            System.err.println("Error during copybook parsing: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

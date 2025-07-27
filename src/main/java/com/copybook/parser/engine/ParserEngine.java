@@ -1,96 +1,55 @@
 package com.copybook.parser.engine;
 
 import com.copybook.parser.config.ParsingRules;
-import com.copybook.parser.model.ParseResult;
-import com.copybook.parser.processor.RecordTypeProcessor;
-import com.copybook.parser.processor.FieldProcessor;
+import com.copybook.parser.model.RecordLayout;
 import com.copybook.parser.processor.LayoutProcessor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-@RequiredArgsConstructor
-@Slf4j
 public class ParserEngine {
 
-    private final RuleInterpreter ruleInterpreter;
-    private final CopybookAnalyzer analyzer;
-    private final RecordTypeProcessor recordTypeProcessor;
-    private final FieldProcessor fieldProcessor;
-    private final LayoutProcessor layoutProcessor;
+    @Autowired
+    private LayoutProcessor layoutProcessor;
 
-    public ParseResult parse(List<String> copybookLines, ParsingRules rules) {
-        var startTime = System.currentTimeMillis();
-        var warnings = new ArrayList<String>();
-
-        log.info("Starting copybook parsing with rule type: {}", rules.getRuleType());
-
+    public ParseResult parseCopybook(List<String> copybookLines, ParsingRules rules) {
         try {
-            // Step 1: Validate and interpret rules
-            ruleInterpreter.validateRules(rules);
+            RecordLayout layout = layoutProcessor.processLayout(copybookLines, rules);
 
-            // Step 2: Analyze copybook structure
-            var analysisResult = analyzer.analyze(copybookLines, rules);
-            if (!analysisResult.getWarnings().isEmpty()) {
-                warnings.addAll(analysisResult.getWarnings());
-            }
+            Map<String, RecordLayout> layouts = new HashMap<>();
+            layouts.put(layout.getLayoutName(), layout);
 
-            // Step 3: Process record types
-            var recordTypeResult = recordTypeProcessor.process(copybookLines, rules);
-            log.info("Found {} record types: {}",
-                    recordTypeResult.getRecordsByType().size(),
-                    recordTypeResult.getRecordsByType().keySet());
-
-            // Step 4: Process fields for each record type
-            var fieldResult = fieldProcessor.process(recordTypeResult, rules);
-
-            // Step 5: Generate layouts
-            var layoutResult = layoutProcessor.process(fieldResult, rules);
-
-            var processingTime = System.currentTimeMillis() - startTime;
-
-            // Step 6: Build final result
-            return ParseResult.builder()
-                    .success(true)
-                    .copybookName(analysisResult.getCopybookName())
-                    .recordLayouts(layoutResult.getLayouts())
-                    .totalFields(layoutResult.getTotalFields())
-                    .totalRecordTypes(recordTypeResult.getRecordsByType().size())
-                    .processingRules(rules)
-                    .processingMethod(recordTypeResult.getProcessingMethod())
-                    .processingTimeMs(processingTime)
-                    .warnings(warnings.isEmpty() ? null : warnings)
-                    .fieldTypeStatistics(calculateFieldTypeStats(layoutResult))
-                    .recordTypeStatistics(recordTypeResult.getRecordCounts())
-                    .build();
-
+            return new ParseResult(layouts, true, null);
         } catch (Exception e) {
-            log.error("Error parsing copybook", e);
-            return ParseResult.builder()
-                    .success(false)
-                    .errorMessage(e.getMessage())
-                    .processingTimeMs(System.currentTimeMillis() - startTime)
-                    .build();
+            return new ParseResult(new HashMap<>(), false, e.getMessage());
         }
     }
 
-    private Map<String, Integer> calculateFieldTypeStats(LayoutProcessor.LayoutResult layoutResult) {
-        var stats = new HashMap<String, Integer>();
+    public static class ParseResult {
+        private final Map<String, RecordLayout> layouts;
+        private final boolean success;
+        private final String errorMessage;
 
-        layoutResult.getLayouts().values().forEach(layout -> {
-            layout.getFields().forEach(field -> {
-                var type = field.isGroup() ? "GROUP" :
-                        field.isCondition() ? "CONDITION" : "ELEMENTARY";
-                stats.merge(type, 1, Integer::sum);
-            });
-        });
+        public ParseResult(Map<String, RecordLayout> layouts, boolean success, String errorMessage) {
+            this.layouts = layouts;
+            this.success = success;
+            this.errorMessage = errorMessage;
+        }
 
-        return stats;
+        public Map<String, RecordLayout> getLayouts() {
+            return layouts;
+        }
+
+        public boolean isSuccess() {
+            return success;
+        }
+
+        public String getErrorMessage() {
+            return errorMessage;
+        }
     }
 }

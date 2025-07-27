@@ -3,113 +3,58 @@ package com.copybook.parser.processor;
 import com.copybook.parser.config.ParsingRules;
 import com.copybook.parser.model.CobolField;
 import com.copybook.parser.model.RecordLayout;
-import com.copybook.parser.processor.FieldProcessor.FieldResult;
-import lombok.Builder;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Component
-@Slf4j
 public class LayoutProcessor {
 
-    public LayoutResult process(FieldResult fieldResult, ParsingRules rules) {
-        var layouts = new HashMap<String, RecordLayout>();
-        var totalFields = 0;
+    @Autowired
+    private FieldProcessor fieldProcessor;
 
-        for (var entry : fieldResult.getFieldsByRecordType().entrySet()) {
-            var recordType = entry.getKey();
-            var fields = entry.getValue();
+    public RecordLayout processLayout(List<String> copybookLines, ParsingRules rules) {
+        List<CobolField> fields = fieldProcessor.processFields(copybookLines, rules);
+        fieldProcessor.validateFieldStructure(fields, rules);
 
-            var layout = createRecordLayout(recordType, fields, rules);
-            layouts.put(recordType, layout);
-            totalFields += fields.size();
+        int groupFields = 0;
+        int elementaryFields = 0;
+        int conditionFields = 0;
+        int fillerFields = 0;
 
-            log.debug("Created layout for {}: {} fields, {} bytes",
-                    recordType, layout.getFieldCount(), layout.getTotalLength());
-        }
-
-        return LayoutResult.builder()
-                .layouts(layouts)
-                .totalFields(totalFields)
-                .build();
-    }
-
-    private RecordLayout createRecordLayout(String recordType, List<CobolField> fields, ParsingRules rules) {
-        var groupFields = 0;
-        var elementaryFields = 0;
-        var conditionFields = 0;
-        var hasRedefines = false;
-        var hasOccurs = false;
-        var hasConditions = false;
-        var maxLength = 0;
-
-        for (var field : fields) {
-            if (field.isGroup()) {
-                groupFields++;
-            } else if (field.isCondition()) {
+        for (CobolField field : fields) {
+            if (field.isCondition()) {
                 conditionFields++;
-                hasConditions = true;
+            } else if (field.isGroup()) {
+                groupFields++;
             } else {
                 elementaryFields++;
-            }
-
-            if (field.getRedefines() != null) {
-                hasRedefines = true;
-            }
-
-            if (field.getOccurs() != null) {
-                hasOccurs = true;
-            }
-
-            if (field.getEndPosition() > maxLength) {
-                maxLength = field.getEndPosition();
+                if (field.isFiller()) {
+                    fillerFields++;
+                }
             }
         }
 
-        var layoutName = generateLayoutName(recordType, fields, rules);
+        int totalLength = fields.stream()
+                .filter(f -> !f.isGroup() && !f.isCondition())
+                .mapToInt(CobolField::getEndPosition)
+                .max()
+                .orElse(0);
 
         return RecordLayout.builder()
-                .recordType(recordType)
-                .layoutName(layoutName)
+                .recordType("FIXED")
+                .layoutName("LAYOUT-NAME")
                 .fields(fields)
                 .fieldCount(fields.size())
-                .totalLength(maxLength)
-                .minLength(maxLength) // Simplified - could be calculated more accurately
-                .maxLength(maxLength)
-                .hasRedefines(hasRedefines)
-                .hasOccurs(hasOccurs)
-                .hasConditions(hasConditions)
+                .totalLength(totalLength)
                 .groupFields(groupFields)
                 .elementaryFields(elementaryFields)
                 .conditionFields(conditionFields)
-                .isValid(true)
+                .fillerFields(fillerFields)
                 .build();
-    }
-
-    private String generateLayoutName(String recordType, List<CobolField> fields, ParsingRules rules) {
-        var namingConvention = rules.getLayoutGeneration().getNamingConvention();
-
-        // Find first 01 level field name
-        var firstRecordName = fields.stream()
-                .filter(f -> f.getLevel() == 1)
-                .findFirst()
-                .map(CobolField::getName)
-                .orElse("RECORD");
-
-        return namingConvention
-                .replace("{record_type}", recordType)
-                .replace("{01_level_name}", firstRecordName);
-    }
-
-    @Data
-    @Builder
-    public static class LayoutResult {
-        private Map<String, RecordLayout> layouts;
-        private int totalFields;
     }
 }
