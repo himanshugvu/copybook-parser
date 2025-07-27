@@ -1,0 +1,18 @@
+{
+  "ruleType": "no-record-type",
+  "recordTypeField": null,
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "includeFillers": false,
+    "occursExpansion": true,
+    "processConditions": true,
+    "namingConvention": "original"
+  },
+  "layoutGeneration": {
+    "strategy": "single_layout",
+    "separateBy": "01_level",
+    "includeRecordType": false,
+    "startPosition": 1,
+    "namingConvention": "SINGLE_LAYOUT_{01_level_name}"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "ruleType": "pattern-based",
+  "recordTypeField": {
+    "pattern": "^\\s*01\\s+([A-Z-]+)",
+    "patternMappings": {
+      "HEADER-RECORD": "HEADER",
+      "DATA-RECORD": "DATA",
+      "TRAILER-RECORD": "TRAILER"
+    },
+    "defaultType": "DATA"
+  },
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "includeFillers": false,
+    "processConditions": true
+  },
+  "layoutGeneration": {
+    "strategy": "multi_layout",
+    "includeRecordType": false,
+    "startPosition": 1
+  }
+}

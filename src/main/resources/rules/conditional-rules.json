@@ -1,0 +1,24 @@
+{
+  "ruleType": "conditional-based",
+  "recordTypeField": {
+    "start": 1,
+    "length": 1,
+    "conditionalExpression": "if {char} == 'H' then 'HEADER' else if {char} == 'T' then 'TRAILER' else 'DATA'",
+    "defaultType": "DATA",
+    "conditionalMappings": {
+      "H": "HEADER",
+      "T": "TRAILER"
+    }
+  },
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "includeFillers": true,
+    "processConditions": true,
+    "namingConvention": "uppercase"
+  },
+  "layoutGeneration": {
+    "strategy": "multi_layout",
+    "includeRecordType": true,
+    "startPosition": 2
+  }
+}

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: copybook-parser
+  main:
+    banner-mode: console
+    web-application-type: none
+
+logging:
+  level:
+    com.copybook.parser: INFO
+    root: WARN
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+copybook:
+  parser:
+    default-rules: "classpath:rules/default-rules.json"
+    max-file-size: 10MB
+    enable-validation: true

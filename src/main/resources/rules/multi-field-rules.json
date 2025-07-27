@@ -1,0 +1,34 @@
+{
+  "ruleType": "multi-field",
+  "recordTypeField": {
+    "multiFieldRules": [
+      {
+        "name": "record-type",
+        "start": 1,
+        "length": 2,
+        "expectedValue": "00",
+        "recordType": "HEADER",
+        "required": true
+      },
+      {
+        "name": "record-type",
+        "start": 1,
+        "length": 2,
+        "expectedValue": "99",
+        "recordType": "TRAILER",
+        "required": true
+      }
+    ],
+    "defaultType": "DATA"
+  },
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "includeFillers": false,
+    "processConditions": true
+  },
+  "layoutGeneration": {
+    "strategy": "multi_layout",
+    "includeRecordType": true,
+    "startPosition": 3
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "ruleType": "character-based",
+  "recordTypeField": {
+    "start": 1,
+    "length": 1,
+    "values": {
+      "H": "HEADER",
+      "R": "DATA",
+      "T": "TRAILER"
+    },
+    "defaultType": "DATA",
+    "caseSensitive": true,
+    "validCharacters": ["H", "R", "T"],
+    "trimValues": true,
+    "fallbackStrategy": "default"
+  },
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "includeFillers": false,
+    "occursExpansion": true,
+    "processConditions": true,
+    "namingConvention": "original"
+  },
+  "layoutGeneration": {
+    "strategy": "multi_layout",
+    "includeRecordType": true,
+    "startPosition": 2,
+    "namingConvention": "{record_type}_LAYOUT"
+  }
+}
