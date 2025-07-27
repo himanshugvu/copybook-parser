@@ -1,0 +1,70 @@
+{
+  "ruleType": "position-based",
+  "recordTypeField": {
+    "start": 1,
+    "length": 2,
+    "values": {
+      "00": "HEADER",
+      "01": "DATA",
+      "99": "TRAILER"
+    },
+    "defaultType": "DATA",
+    "trimValues": true,
+    "ignoreCase": false,
+    "fallbackStrategy": "default"
+  },
+  "fieldProcessing": {
+    "levelHierarchy": "standard",
+    "recordLevels": [1],
+    "groupLevels": [5, 10, 15, 20, 25],
+    "elementaryLevels": [30, 35, 40, 45, 49],
+    "conditionLevels": [88],
+    "redefinesHandling": "standard",
+    "occursExpansion": true,
+    "includeFillers": false,
+    "processConditions": true,
+    "processRedefines": true,
+    "usageMappings": {
+      "COMP": "binary",
+      "COMP-1": "float",
+      "COMP-2": "double",
+      "COMP-3": "packed_decimal",
+      "COMP-4": "binary",
+      "COMP-5": "native_binary",
+      "DISPLAY": "character",
+      "PACKED-DECIMAL": "packed_decimal",
+      "BINARY": "binary"
+    },
+    "expandPictureRepeats": true,
+    "calculateStorageLength": true,
+    "namingConvention": "original",
+    "occursStrategy": "expand",
+    "maxOccursExpansion": 100
+  },
+  "layoutGeneration": {
+    "strategy": "multi_layout",
+    "separateBy": "record_type",
+    "namingConvention": "{record_type}_{01_level_name}",
+    "startPosition": 1,
+    "includeRecordType": true,
+    "alignment": "byte",
+    "zeroBasedPositions": false,
+    "includeEndPositions": true,
+    "includeMetadata": true,
+    "generateDocumentation": false,
+    "outputFormat": "json",
+    "groupByParent": true,
+    "flattenHierarchy": false,
+    "hierarchySeparator": ".",
+    "validatePositions": true,
+    "allowOverlaps": false,
+    "includeStatistics": true,
+    "includeValidationRules": false
+  },
+  "validation": {
+    "strictMode": false,
+    "validateFieldOverlaps": true,
+    "validateRedefines": true,
+    "allowEmptyFields": false
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "rules": {
+    "rule1": {
+      "type": "position",
+      "start": 1,
+      "length": 2,
+      "mapping": {
+        "00": "HEADER",
+        "01": "BODY",
+        "99": "TRAILER"
+      }
+    },
+    "rule2": {
+      "type": "character",
+      "start": 1,
+      "mapping": {
+        "H": "HEADER",
+        "R": "BODY",
+        "T": "TRAILER"
+      }
+    },
+    "rule3": {
+      "type": "conditional",
+      "conditions": [
+        {"equals": "H", "at": 1, "result": "HEADER"},
+        {"equals": "T", "at": 1, "result": "TRAILER"}
+      ],
+      "default": "BODY"
+    },
+    "rule4": {
+      "type": "none"
+    }
+  }
+}
